@@ -1,0 +1,93 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Attachment {
+    id INTEGER [primary key]
+    task_id INTEGER 
+    filename VARCHAR 
+    file_path VARCHAR 
+    }
+
+Table Task {
+    id INTEGER [primary key]
+    description VARCHAR 
+    due_date DATETIME 
+    is_complete BOOLEAN 
+    checklist_id INTEGER 
+    }
+
+Table Checklist {
+    id INTEGER [primary key]
+    name VARCHAR 
+    created_date DATETIME 
+    }
+
+Table Collaboration {
+    id INTEGER [primary key]
+    checklist_id INTEGER 
+    user_id INTEGER 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    username VARCHAR 
+    email VARCHAR 
+    }
+
+Table Comment {
+    id INTEGER [primary key]
+    content VARCHAR 
+    task_id INTEGER 
+    user_id INTEGER 
+    }
+
+Table Notification {
+    id INTEGER [primary key]
+    content VARCHAR 
+    user_id INTEGER 
+    sent_date DATETIME 
+    }
+
+Table Priority {
+    id INTEGER [primary key]
+    level VARCHAR 
+    }
+
+Table Reminder {
+    id INTEGER [primary key]
+    task_id INTEGER 
+    reminder_time DATETIME 
+    }
+
+Table Tag {
+    id INTEGER [primary key]
+    name VARCHAR 
+    }
+
+Table TaskPriority {
+    id INTEGER [primary key]
+    task_id INTEGER 
+    priority_id INTEGER 
+    }
+
+Table TaskTag {
+    id INTEGER [primary key]
+    task_id INTEGER 
+    tag_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Attachment.(task_id) < Task.(id)
+    Ref: Task.(checklist_id) < Checklist.(id)
+    Ref: Collaboration.(checklist_id) < Checklist.(id)
+    Ref: Collaboration.(user_id) < User.(id)
+    Ref: Comment.(task_id) < Task.(id)
+    Ref: Comment.(user_id) < User.(id)
+    Ref: Notification.(user_id) < User.(id)
+    Ref: Reminder.(task_id) < Task.(id)
+    Ref: TaskPriority.(priority_id) < Priority.(id)
+    Ref: TaskPriority.(task_id) < Task.(id)
+    Ref: TaskTag.(tag_id) < Tag.(id)
+    Ref: TaskTag.(task_id) < Task.(id)

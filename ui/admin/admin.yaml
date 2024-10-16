@@ -1,0 +1,341 @@
+about:
+  date: October 16, 2024 05:41:54
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Attachment:
+    attributes:
+    - label: ' filename*'
+      name: filename
+      required: true
+      search: true
+      sort: true
+    - name: task_id
+      required: true
+    - name: file_path
+      required: true
+    - name: id
+    description: Represents files attached to tasks.
+    info_list: Represents files attached to tasks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: Attachment
+    user_key: filename
+  Checklist:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: created_date
+    - name: id
+    description: Represents a collection of tasks for a specific purpose or goal.
+    info_list: Represents a collection of tasks for a specific purpose or goal.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - checklist_id
+      name: CollaborationList
+      resource: Collaboration
+    - direction: tomany
+      fks:
+      - checklist_id
+      name: TaskList
+      resource: Task
+    type: Checklist
+    user_key: name
+  Collaboration:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: checklist_id
+      required: true
+    - name: user_id
+      required: true
+    description: Represents collaborative checklists with multiple users.
+    info_list: Represents collaborative checklists with multiple users.
+    tab_groups:
+    - direction: toone
+      fks:
+      - checklist_id
+      name: checklist
+      resource: Checklist
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Collaboration
+    user_key: id
+  Comment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: task_id
+      required: true
+    - name: user_id
+    - name: content
+      required: true
+    description: Represents comments related to tasks.
+    info_list: Represents comments related to tasks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Comment
+    user_key: id
+  Notification:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: user_id
+      required: true
+    - name: content
+      required: true
+    - name: sent_date
+    description: Represents notifications sent to users.
+    info_list: Represents notifications sent to users.
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Notification
+    user_key: id
+  Priority:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: level
+      required: true
+    description: Represents different priorities that can be assigned to tasks.
+    info_list: Represents different priorities that can be assigned to tasks.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - priority_id
+      name: TaskPriorityList
+      resource: TaskPriority
+    type: Priority
+    user_key: id
+  Reminder:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: task_id
+      required: true
+    - name: reminder_time
+      required: true
+    description: Represents reminders set for tasks.
+    info_list: Represents reminders set for tasks.
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: Reminder
+    user_key: id
+  Tag:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: id
+    description: Represents tags for categorizing tasks.
+    info_list: Represents tags for categorizing tasks.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tag_id
+      name: TaskTagList
+      resource: TaskTag
+    type: Tag
+    user_key: name
+  Task:
+    attributes:
+    - label: ' description*'
+      name: description
+      required: true
+      search: true
+      sort: true
+    - name: checklist_id
+      required: true
+    - name: due_date
+    - name: is_complete
+    - name: id
+    description: Represents individual tasks within a checklist.
+    info_list: Represents individual tasks within a checklist.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - task_id
+      name: AttachmentList
+      resource: Attachment
+    - direction: tomany
+      fks:
+      - task_id
+      name: CommentList
+      resource: Comment
+    - direction: tomany
+      fks:
+      - task_id
+      name: ReminderList
+      resource: Reminder
+    - direction: tomany
+      fks:
+      - task_id
+      name: TaskPriorityList
+      resource: TaskPriority
+    - direction: tomany
+      fks:
+      - task_id
+      name: TaskTagList
+      resource: TaskTag
+    - direction: toone
+      fks:
+      - checklist_id
+      name: checklist
+      resource: Checklist
+    type: Task
+    user_key: description
+  TaskPriority:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: priority_id
+      required: true
+    - name: task_id
+      required: true
+    description: Junction table linking tasks and priorities.
+    info_list: Junction table linking tasks and priorities.
+    tab_groups:
+    - direction: toone
+      fks:
+      - priority_id
+      name: priority
+      resource: Priority
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: TaskPriority
+    user_key: id
+  TaskTag:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: tag_id
+      required: true
+    - name: task_id
+      required: true
+    description: Junction table linking tasks and tags.
+    info_list: Junction table linking tasks and tags.
+    tab_groups:
+    - direction: toone
+      fks:
+      - tag_id
+      name: tag
+      resource: Tag
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: TaskTag
+    user_key: id
+  User:
+    attributes:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Represents users of the checklist app.
+    info_list: Represents users of the checklist app.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: CollaborationList
+      resource: Collaboration
+    - direction: tomany
+      fks:
+      - user_id
+      name: CommentList
+      resource: Comment
+    - direction: tomany
+      fks:
+      - user_id
+      name: NotificationList
+      resource: Notification
+    type: User
+    user_key: username
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

@@ -1,0 +1,83 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="id" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Priority_form_edit" 
+        service="Priority" 
+        entity="Priority" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+      <o-text-input #level attr="level" label="level" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="TASKPRIORITY-priority_id">
+    <div layout-padding>
+      <o-table 
+        attr="TaskPriorityTable" 
+        service="TaskPriority" 
+        entity="TaskPriority" 
+        keys="id"
+        parent-keys="priority_id:id"
+        columns="id;priority_id;task_id"  
+        horizontal-scroll="yes"
+        detail-form-route="TaskPriority" 
+        edit-form-route="TaskPriority"
+        visible-columns="id;priority_id;task_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="priority_id" title="priority_id">
+    <o-table-cell-renderer-service attr="priority_id" 
+        service="Priority" entity="PriorityType" columns="id;id"
+        parent-keys="id:priority_id"
+        value-column="id" keys="priority_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="task_id" title="task_id">
+    <o-table-cell-renderer-service attr="task_id" 
+        service="Task" entity="TaskType" columns="id;description"
+        parent-keys="id:task_id"
+        value-column="description" keys="task_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

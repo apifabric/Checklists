@@ -1,0 +1,497 @@
+about:
+  date: October 16, 2024 05:41:54
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Attachment:
+    columns:
+    - label: ' filename*'
+      name: filename
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: task_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: file_path
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents files attached to tasks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: filename
+    home_template: home_template.html
+    info_list: Represents files attached to tasks.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: Attachment
+  Checklist:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: created_date
+      template: date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a collection of tasks for a specific purpose or goal.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents a collection of tasks for a specific purpose or goal.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - checklist_id
+      name: CollaborationList
+      resource: Collaboration
+    - direction: tomany
+      fks:
+      - checklist_id
+      name: TaskList
+      resource: Task
+    type: Checklist
+  Collaboration:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: checklist_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents collaborative checklists with multiple users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents collaborative checklists with multiple users.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - checklist_id
+      name: checklist
+      resource: Checklist
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Collaboration
+  Comment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: task_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      template: integer
+      type: INTEGER
+    - name: content
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents comments related to tasks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents comments related to tasks.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Comment
+  Notification:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: content
+      required: true
+      template: text
+      type: VARCHAR
+    - name: sent_date
+      template: date
+      type: DATETIME
+    description: Represents notifications sent to users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents notifications sent to users.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Notification
+  Priority:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: level
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents different priorities that can be assigned to tasks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents different priorities that can be assigned to tasks.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - priority_id
+      name: TaskPriorityList
+      resource: TaskPriority
+    type: Priority
+  Reminder:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: task_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: reminder_time
+      required: true
+      template: date
+      type: DATETIME
+    description: Represents reminders set for tasks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents reminders set for tasks.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: Reminder
+  Tag:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents tags for categorizing tasks.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents tags for categorizing tasks.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tag_id
+      name: TaskTagList
+      resource: TaskTag
+    type: Tag
+  Task:
+    columns:
+    - label: ' description*'
+      name: description
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: checklist_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: due_date
+      template: date
+      type: DATETIME
+    - name: is_complete
+      template: text
+      type: BOOLEAN
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents individual tasks within a checklist.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    home_template: home_template.html
+    info_list: Represents individual tasks within a checklist.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - task_id
+      name: AttachmentList
+      resource: Attachment
+    - direction: tomany
+      fks:
+      - task_id
+      name: CommentList
+      resource: Comment
+    - direction: tomany
+      fks:
+      - task_id
+      name: ReminderList
+      resource: Reminder
+    - direction: tomany
+      fks:
+      - task_id
+      name: TaskPriorityList
+      resource: TaskPriority
+    - direction: tomany
+      fks:
+      - task_id
+      name: TaskTagList
+      resource: TaskTag
+    - direction: toone
+      fks:
+      - checklist_id
+      name: checklist
+      resource: Checklist
+    type: Task
+  TaskPriority:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: priority_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: task_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Junction table linking tasks and priorities.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Junction table linking tasks and priorities.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - priority_id
+      name: priority
+      resource: Priority
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: TaskPriority
+  TaskTag:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: tag_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: task_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Junction table linking tasks and tags.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Junction table linking tasks and tags.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - tag_id
+      name: tag
+      resource: Tag
+    - direction: toone
+      fks:
+      - task_id
+      name: task
+      resource: Task
+    type: TaskTag
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents users of the checklist app.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    home_template: home_template.html
+    info_list: Represents users of the checklist app.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: CollaborationList
+      resource: Collaboration
+    - direction: tomany
+      fks:
+      - user_id
+      name: CommentList
+      resource: Comment
+    - direction: tomany
+      fks:
+      - user_id
+      name: NotificationList
+      resource: Notification
+    type: User
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
